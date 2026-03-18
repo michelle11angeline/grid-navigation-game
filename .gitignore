@@ -1,0 +1,9 @@
+#tells Git which files NOT to track or save in the repository.
+#because some files are automatically generated, temporary and diff for every computer
+#you just want to keep your code
+*.o
+*.out
+main
+a.out
+.DS_Store
+#this stop Git from tracking compiled files
