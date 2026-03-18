@@ -6,4 +6,5 @@
 main
 a.out
 .DS_Store
+navigateGrid
 #this stop Git from tracking compiled files
