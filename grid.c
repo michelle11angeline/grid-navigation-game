@@ -4,8 +4,8 @@
 #include "grid.h"
 
 /*Create 2D char array with function pointer*/
-char **create_grid(int grid_size, int key_pos, int trap_pos[3]) {
-    char **grid;
+char **create_grid(GameState *state) {
+    int grid_size = state->grid_size;
     int i, j; 
     
     /*Allocate memory of grid row pointer(coloum) on the heap*/
@@ -39,10 +39,11 @@ char **create_grid(int grid_size, int key_pos, int trap_pos[3]) {
     return grid;
 }
 /*Display grid with previously created grid*/
-void display_grid(char **grid, int grid_size, int player_pos, bool key_found) {
+void display_grid(GameState *state) {
     int i, j; 
-    int player_row = player_pos / grid_size;
-    int player_col = player_pos % grid_size;
+    int grid_size = state->grid_size;
+    int player_row = state->player_pos / grid_size;
+    int player_col = state->player_pos % grid_size;
 
     printf("+");
     for (i = 0; i < grid_size; i++) {
@@ -57,11 +58,11 @@ void display_grid(char **grid, int grid_size, int player_pos, bool key_found) {
             if (i == player_row && j == player_col) {
                 printf(" > |"); 
             }
-            else if (grid[i][j] == 'K' && key_found) {
+            else if (state->grid[i][j] == 'K' && state->key_found) {
                 printf(" %sK%s |", GREEN, RESET); /* Key in green */
             }
             else {
-                printf(" %c |", grid[i][j]); 
+                printf(" %c |", state->grid[i][j]); 
             }
         }
         printf("\n+");
@@ -73,11 +74,11 @@ void display_grid(char **grid, int grid_size, int player_pos, bool key_found) {
 }
 
 /*Free allocated memory to prevent memory leak*/
-void free_grid(char **grid, int grid_size) {
+void free_grid(GameState *state) {
     int i; 
     
-    for (i = 0; i < grid_size; i++) {
-        free(grid[i]);
+    for (i = 0; i < state->grid_size; i++) {
+        free(state->grid[i]);
     }
-    free(grid);
+    free(state->grid);
 }
