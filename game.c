@@ -1,17 +1,47 @@
-/*game.c - game feature*/
 #include <stdlib.h>
 #include <stdio.h>
 #include "game.h"
 #include "grid.h"
 #include "move.h"
 
-/*funtion to clear screen*/
-void clear_screen() {
+void clear_screen(void) {
     printf(CLEAR_SCREEN);
 }
 
-/*game function*/
-void startGame(int grid_size, int key_cell, int trap1, int trap2, int trap3) {
+void generateRandomPositions(GameState *state) {
+    int grid_size = state->grid_size;
+    int total_cells = grid_size * grid_size;
+    int i, j;
+
+    do {
+        state->key_pos = rand() % total_cells;
+    } while (state->key_pos == 0 || state->key_pos == total_cells - 1);
+
+    for (i = 0; i < TRAP_COUNT; i++) {
+        int pos;
+        int valid;
+
+        do {
+            valid = TRUE;
+            pos = rand() % total_cells;
+
+            if (pos == 0 || pos == total_cells - 1 || pos == state->key_pos) {
+                valid = FALSE;
+            } else {
+                for (j = 0; j < i; j++) {
+                    if (pos == state->trap_pos[j]) {
+                        valid = FALSE;
+                        break;
+                    }
+                }
+            }
+        } while (!valid);
+
+        state->trap_pos[i] = pos;
+    }
+}
+
+void startGame(int grid_size, const char *filename) {
     GameState *state = malloc(sizeof(GameState));
     if (!state) {
         fprintf(stderr, "Memory allocation failed for GameState\n");
@@ -20,12 +50,10 @@ void startGame(int grid_size, int key_cell, int trap1, int trap2, int trap3) {
 
     state->grid_size = grid_size;
     state->player_pos = 0;
-    state->key_pos = key_cell - 1;
-    state->trap_pos[0] = trap1 - 1;
-    state->trap_pos[1] = trap2 - 1;
-    state->trap_pos[2] = trap3 - 1;
     state->lifelines = 2;
     state->key_found = FALSE;
+
+    generateRandomPositions(state);
     state->grid = create_grid(state);
 
     {
@@ -63,6 +91,7 @@ void startGame(int grid_size, int key_cell, int trap1, int trap2, int trap3) {
         }
     }
 
+    (void)filename;
     free_grid(state);
     free(state);
 }
