@@ -1,13 +1,15 @@
 # Grid Navigation Game (C)
 
-This project is developed for Assignment one of the Unix and C Programming unit.  
+This project is developed for Assignment 1 (improved acccording to assignment 2) of the Unix and C Programming unit.  
 The objective of this assignment is to design, implement, and test a grid-based navigation game using the C programming language and a 2D dynamic grid system.
 
-In this game, the player navigates through a grid, collects keys, avoids traps, and manages limited lifelines to achieve the winning condition.
+In this game, the player navigates through a grid, collects a key, avoids traps, and manages limited lifelines to achieve the winning condition.  
+Additionally, the program records the entire gameplay history and saves it to an output file. 
 
 ---
 
 ## Game Features
+
 - Dynamic grid size (3x3 to 6x6)
 - Player movement using:
   - `l` (left)
@@ -21,6 +23,15 @@ In this game, the player navigates through a grid, collects keys, avoids traps, 
 - Win and lose conditions
 - Input validation and error handling
 
+### New Features (Assignment 2)
+
+- Generic linked list implementation
+- Snapshot system to store game states
+- Deep copy of grid at every move
+- Game history recorded throughout gameplay
+- Output file generation with all grid states
+- History saved in reverse order (last move first)
+
 ---
 
 ## How to Compile and Run
@@ -30,25 +41,30 @@ make
 
 ### Run 
 This program is executed using the following format:
-./navigateGrid <grid_size> <key_cell> <trap1_cell> <trap2_cell> <trap3_cell>
+./game <grid_size> <output_file>
 
 #### Parameter 
 - grid_size (Defines the size of the grid (NxN), Must be between 3 and 6 (inclusive).)
-- key_cell (Specifies the cell number containing the key (K).)
-- trap1_cell, trap2_cell, trap3_cell (Specify the cell numbers containing traps (1, 2, 3), Stepping on a trap reduces one lifeline.)
+- output_file (Name of the file where game history will be saved)
 
 #### Example 
-./navigateGrid 4 10 2 6 8
+./game 5 output.txt
+
+## Output File
+- The program generates an output file containing all game states
+- Each move is recorded as a snapshot
+- The history is saved in reverse order
+- Each snapshot displays: Grid layout and Player position
 
 ## File Structure
-- main.c : Program entry point and game loop
-- game.c : Core game logic and conditions
-- grid.c : Grid creation and memory management
-- move.c : Player movement handling
-- game.h : Game-related function declarations
-- grid.h : Grid-related function declarations
-- move.h : Movement-related function declarations
-- Makefile : Compilation instructions
+- main.c → Program entry point and input handling
+- game.c → Core game logic and game loop
+- grid.c → Grid creation and memory management
+- move.c → Player movement handling
+- list.c → Generic linked list implementation
+- snapshot.c → Snapshot creation, printing, and memory management
+- *.h → Header files for modular structure
+- Makefile → Compilation instructions
 
 ## Testing 
 The program has been tested with:
@@ -57,11 +73,12 @@ The program has been tested with:
 - Boundary movement conditions
 - Invalid user inputs
 - Win and lose scenarios
+- File output correctness
 
 ## Notes
-- The program uses dynamic memory allocation for grid creation.
-- All allocated memory is properly freed to prevent memory leaks.
-- Input validation is implemented to handle invalid or out-of-range inputs.
+- The program uses dynamic memory allocation
+- All allocated memory is properly freed
+- Linked list nodes and snapshots are deallocated correctly
 - The program has been tested using **Valgrind**, confirming:
   - No memory leaks
   - No invalid reads/writes
@@ -71,4 +88,3 @@ The program has been tested with:
 Michelle Angeline 
 Dploma of Information Technology 
 Curtin University
-
