@@ -1,6 +1,7 @@
 /*move.h - user's movement accordingly to input*/
 #include <stdio.h> 
 #include "move.h"
+#include "game.h"
 
 /*Function to move player according to user's input*/
 void move_player(GameState *state, char input) {
@@ -31,7 +32,6 @@ void move_player(GameState *state, char input) {
             }
             break;
         default:
-            printf("Invalid input, enter again\n");
             return;
     }
     /* Check if new position has key */
@@ -43,7 +43,7 @@ void move_player(GameState *state, char input) {
         /* Check if new position has trap */
         for (i = 0; i < TRAP_COUNT; i++) {
             if (new_pos == state->trap_pos[i]) {
-                (state->lifelines)--;;
+                state->lifelines--;
             }
         }
 

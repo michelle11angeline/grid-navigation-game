@@ -1,4 +1,4 @@
-/*grid.c - reate and display grid*/
+/*grid.c - create and display grid*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "grid.h"
@@ -6,10 +6,10 @@
 /*Create 2D char array with function pointer*/
 char **create_grid(GameState *state) {
     int grid_size = state->grid_size;
-    int i, j; 
-    
+    int i, j;
+
     /*Allocate memory of grid row pointer(coloum) on the heap*/
-    grid = (char**)malloc(grid_size * sizeof(char *)); 
+    char **grid = (char**)malloc(grid_size * sizeof(char *)); 
     if (grid == NULL) { 
         fprintf(stderr, "Memory allocation failed\n");
         exit(EXIT_FAILURE);
@@ -32,10 +32,10 @@ char **create_grid(GameState *state) {
     }
 
     /*Place key and traps */
-    grid[key_pos / grid_size][key_pos % grid_size] = 'K';
-    grid[trap_pos[0] / grid_size][trap_pos[0] % grid_size] = '1';
-    grid[trap_pos[1] / grid_size][trap_pos[1] % grid_size] = '2';
-    grid[trap_pos[2] / grid_size][trap_pos[2] % grid_size] = '3';
+    grid[state->key_pos / grid_size][state->key_pos % grid_size] = 'K';
+    grid[state->trap_pos[0] / grid_size][state->trap_pos[0] % grid_size] = '1';
+    grid[state->trap_pos[1] / grid_size][state->trap_pos[1] % grid_size] = '2';
+    grid[state->trap_pos[2] / grid_size][state->trap_pos[2] % grid_size] = '3';
     return grid;
 }
 /*Display grid with previously created grid*/
